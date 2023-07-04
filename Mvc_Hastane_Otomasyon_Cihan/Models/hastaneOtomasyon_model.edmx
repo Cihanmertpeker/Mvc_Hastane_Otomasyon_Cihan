@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HastaneDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="Dept_no" />
+          </Key>
+          <Property Name="Dept_no" Type="int" Nullable="false" />
+          <Property Name="Dept_adi" Type="nchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Doktorlar">
+          <Key>
+            <PropertyRef Name="Doktor_no" />
+          </Key>
+          <Property Name="Doktor_no" Type="int" Nullable="false" />
+          <Property Name="Doktor_adi" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Dept_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hasta_Yatis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="yat_tarihi" Type="datetime" Nullable="false" />
+          <Property Name="cik_tarihi" Type="datetime" />
+          <Property Name="oda_no" Type="int" Nullable="false" />
+          <Property Name="Hasta_no" Type="int" Nullable="false" />
+          <Property Name="Doktor_no" Type="int" Nullable="false" />
+          <Property Name="Dept_no" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hastalar">
+          <Key>
+            <PropertyRef Name="Hasta_no" />
+          </Key>
+          <Property Name="Hasta_no" Type="int" Nullable="false" />
+          <Property Name="Hasta_adi" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Hasta_dogtar" Type="nchar" MaxLength="20" Nullable="false" />
+          <Property Name="Adres" Type="nchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Doktorlar_Departmanlar">
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="1" />
+          <End Role="Doktorlar" Type="Self.Doktorlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="Dept_no" />
+            </Principal>
+            <Dependent Role="Doktorlar">
+              <PropertyRef Name="Dept_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Departmanlar">
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="Dept_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Dept_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Doktorlar">
+          <End Role="Doktorlar" Type="Self.Doktorlar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doktorlar">
+              <PropertyRef Name="Doktor_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Doktor_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Hastalar">
+          <End Role="Hastalar" Type="Self.Hastalar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hastalar">
+              <PropertyRef Name="Hasta_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Hasta_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HastaneDbModelStoreContainer">
+          <EntitySet Name="Departmanlar" EntityType="Self.Departmanlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Doktorlar" EntityType="Self.Doktorlar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hasta_Yatis" EntityType="Self.Hasta_Yatis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hastalar" EntityType="Self.Hastalar" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Doktorlar_Departmanlar" Association="Self.FK_Doktorlar_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Doktorlar" EntitySet="Doktorlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Departmanlar" Association="Self.FK_Hasta_Yatis_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Doktorlar" Association="Self.FK_Hasta_Yatis_Doktorlar">
+            <End Role="Doktorlar" EntitySet="Doktorlar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Hastalar" Association="Self.FK_Hasta_Yatis_Hastalar">
+            <End Role="Hastalar" EntitySet="Hastalar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HastaneDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Departmanlar">
+          <Key>
+            <PropertyRef Name="Dept_no" />
+          </Key>
+          <Property Name="Dept_no" Type="Int32" Nullable="false" />
+          <Property Name="Dept_adi" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Doktorlar" Relationship="Self.FK_Doktorlar_Departmanlar" FromRole="Departmanlar" ToRole="Doktorlar" />
+          <NavigationProperty Name="Hasta_Yatis" Relationship="Self.FK_Hasta_Yatis_Departmanlar" FromRole="Departmanlar" ToRole="Hasta_Yatis" />
+        </EntityType>
+        <EntityType Name="Doktorlar">
+          <Key>
+            <PropertyRef Name="Doktor_no" />
+          </Key>
+          <Property Name="Doktor_no" Type="Int32" Nullable="false" />
+          <Property Name="Doktor_adi" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Dept_no" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departmanlar" Relationship="Self.FK_Doktorlar_Departmanlar" FromRole="Doktorlar" ToRole="Departmanlar" />
+          <NavigationProperty Name="Hasta_Yatis" Relationship="Self.FK_Hasta_Yatis_Doktorlar" FromRole="Doktorlar" ToRole="Hasta_Yatis" />
+        </EntityType>
+        <EntityType Name="Hasta_Yatis">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="yat_tarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="cik_tarihi" Type="DateTime" Precision="3" />
+          <Property Name="oda_no" Type="Int32" Nullable="false" />
+          <Property Name="Hasta_no" Type="Int32" Nullable="false" />
+          <Property Name="Doktor_no" Type="Int32" Nullable="false" />
+          <Property Name="Dept_no" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Departmanlar" Relationship="Self.FK_Hasta_Yatis_Departmanlar" FromRole="Hasta_Yatis" ToRole="Departmanlar" />
+          <NavigationProperty Name="Doktorlar" Relationship="Self.FK_Hasta_Yatis_Doktorlar" FromRole="Hasta_Yatis" ToRole="Doktorlar" />
+          <NavigationProperty Name="Hastalar" Relationship="Self.FK_Hasta_Yatis_Hastalar" FromRole="Hasta_Yatis" ToRole="Hastalar" />
+        </EntityType>
+        <EntityType Name="Hastalar">
+          <Key>
+            <PropertyRef Name="Hasta_no" />
+          </Key>
+          <Property Name="Hasta_no" Type="Int32" Nullable="false" />
+          <Property Name="Hasta_adi" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Hasta_dogtar" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Adres" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Hasta_Yatis" Relationship="Self.FK_Hasta_Yatis_Hastalar" FromRole="Hastalar" ToRole="Hasta_Yatis" />
+        </EntityType>
+        <Association Name="FK_Doktorlar_Departmanlar">
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="1" />
+          <End Role="Doktorlar" Type="Self.Doktorlar" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="Dept_no" />
+            </Principal>
+            <Dependent Role="Doktorlar">
+              <PropertyRef Name="Dept_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Departmanlar">
+          <End Role="Departmanlar" Type="Self.Departmanlar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departmanlar">
+              <PropertyRef Name="Dept_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Dept_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Doktorlar">
+          <End Role="Doktorlar" Type="Self.Doktorlar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doktorlar">
+              <PropertyRef Name="Doktor_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Doktor_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hasta_Yatis_Hastalar">
+          <End Role="Hastalar" Type="Self.Hastalar" Multiplicity="1" />
+          <End Role="Hasta_Yatis" Type="Self.Hasta_Yatis" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hastalar">
+              <PropertyRef Name="Hasta_no" />
+            </Principal>
+            <Dependent Role="Hasta_Yatis">
+              <PropertyRef Name="Hasta_no" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HastaneDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Departmanlar" EntityType="Self.Departmanlar" />
+          <EntitySet Name="Doktorlar" EntityType="Self.Doktorlar" />
+          <EntitySet Name="Hasta_Yatis" EntityType="Self.Hasta_Yatis" />
+          <EntitySet Name="Hastalar" EntityType="Self.Hastalar" />
+          <AssociationSet Name="FK_Doktorlar_Departmanlar" Association="Self.FK_Doktorlar_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Doktorlar" EntitySet="Doktorlar" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Departmanlar" Association="Self.FK_Hasta_Yatis_Departmanlar">
+            <End Role="Departmanlar" EntitySet="Departmanlar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Doktorlar" Association="Self.FK_Hasta_Yatis_Doktorlar">
+            <End Role="Doktorlar" EntitySet="Doktorlar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hasta_Yatis_Hastalar" Association="Self.FK_Hasta_Yatis_Hastalar">
+            <End Role="Hastalar" EntitySet="Hastalar" />
+            <End Role="Hasta_Yatis" EntitySet="Hasta_Yatis" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HastaneDbModelStoreContainer" CdmEntityContainer="HastaneDbEntities">
+          <EntitySetMapping Name="Departmanlar">
+            <EntityTypeMapping TypeName="HastaneDbModel.Departmanlar">
+              <MappingFragment StoreEntitySet="Departmanlar">
+                <ScalarProperty Name="Dept_no" ColumnName="Dept_no" />
+                <ScalarProperty Name="Dept_adi" ColumnName="Dept_adi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Doktorlar">
+            <EntityTypeMapping TypeName="HastaneDbModel.Doktorlar">
+              <MappingFragment StoreEntitySet="Doktorlar">
+                <ScalarProperty Name="Doktor_no" ColumnName="Doktor_no" />
+                <ScalarProperty Name="Doktor_adi" ColumnName="Doktor_adi" />
+                <ScalarProperty Name="Dept_no" ColumnName="Dept_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hasta_Yatis">
+            <EntityTypeMapping TypeName="HastaneDbModel.Hasta_Yatis">
+              <MappingFragment StoreEntitySet="Hasta_Yatis">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="yat_tarihi" ColumnName="yat_tarihi" />
+                <ScalarProperty Name="cik_tarihi" ColumnName="cik_tarihi" />
+                <ScalarProperty Name="oda_no" ColumnName="oda_no" />
+                <ScalarProperty Name="Hasta_no" ColumnName="Hasta_no" />
+                <ScalarProperty Name="Doktor_no" ColumnName="Doktor_no" />
+                <ScalarProperty Name="Dept_no" ColumnName="Dept_no" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hastalar">
+            <EntityTypeMapping TypeName="HastaneDbModel.Hastalar">
+              <MappingFragment StoreEntitySet="Hastalar">
+                <ScalarProperty Name="Hasta_no" ColumnName="Hasta_no" />
+                <ScalarProperty Name="Hasta_adi" ColumnName="Hasta_adi" />
+                <ScalarProperty Name="Hasta_dogtar" ColumnName="Hasta_dogtar" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

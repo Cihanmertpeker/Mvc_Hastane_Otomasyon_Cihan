@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Mvc_Hastane_Otomasyon_Cihan.Models.Hasta_Yatis>
+
+@{
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Hasta Yatis</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Yeni Kayıt", "yeniKayit",null,new {@class="btn btn-success" })
+    </p>
+    <table class="table-hover">
+        <tr>
+            <th>
+                Yatış Tarihi
+            </th>
+            <th>
+                Çıkış Tarihi
+            </th>
+            <th>
+                Oda No
+            </th>
+            <th>
+                Departman Adı
+            </th>
+            <th>
+                Doktor Adı
+            </th>
+            <th>
+               Hasta Adı
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @item.yat_tarihi.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cik_tarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.oda_no)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Departmanlar.Dept_adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doktorlar.Doktor_adi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hastalar.Hasta_adi)
+            </td>
+            <td>
+                @Html.ActionLink("Guncelle", "hastayatis_guncelle", new { id=item.Id },new {@class = "btn btn-success" }) |                
+                @Html.ActionLink("Sil", "hastayatis_sil", new { id=item.Id },new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>  
